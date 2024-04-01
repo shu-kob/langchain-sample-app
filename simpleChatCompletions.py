@@ -8,4 +8,4 @@ response = openai.ChatCompletion.create(
   ]
 )
 
-print(response)
+print(response.choices[0].message.content)
