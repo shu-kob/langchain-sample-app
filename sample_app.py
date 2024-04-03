@@ -1,20 +1,38 @@
-import chainlit as cl
 from langchain.chat_models import ChatOpenAI
-from langchain.schema import HumanMessage
+from langchain.prompts import ChatPromptTemplate
+from langchain.schema import StrOutputParser
+from langchain.schema.runnable import Runnable
+from langchain.schema.runnable.config import RunnableConfig
 
-chat = ChatOpenAI(
-  model="gpt-3.5-turbo",
-)
+import chainlit as cl
+
 
 @cl.on_chat_start
 async def on_chat_start():
-  await cl.Message(content="こんにちは。私はAIです。質問をしてください。").send()
+    model = ChatOpenAI(streaming=True)
+    prompt = ChatPromptTemplate.from_messages(
+        [
+            (
+                "system",
+                "あなたはとても優秀なソフトウェアエンジニアです。",
+            ),
+            ("human", "{question}"),
+        ]
+    )
+    runnable = prompt | model | StrOutputParser()
+    cl.user_session.set("runnable", runnable)
+    await cl.Message(content="こんにちは。私はAIです。質問をしてください。").send()
 
 @cl.on_message
-async def on_message(input_message):
-  print("Received message: ", input_message)
+async def on_message(message: cl.Message):
+    runnable = cl.user_session.get("runnable")  # type: Runnable
 
-  result = chat([
-    HumanMessage(content=input_message),
-  ])
-  await cl.Message(content=result.content).send()
+    msg = cl.Message(content="")
+
+    async for chunk in runnable.astream(
+        {"question": message.content},
+        config=RunnableConfig(callbacks=[cl.LangchainCallbackHandler()]),
+    ):
+        await msg.stream_token(chunk)
+
+    await msg.send()
