@@ -8,7 +8,7 @@ chat = ChatOpenAI(
 result = chat.invoke(
   [
     SystemMessage(content="私は優秀なソフトウェアエンジニアです。"),
-    HumanMessage(content="Langchainについて説明してください。"),
+    HumanMessage(content="LangChainについて説明してください。"),
   ]
 )
 print(result.content)
