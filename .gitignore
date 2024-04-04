@@ -1,3 +1,6 @@
 chainlit.md
 __pycache__/
 .chainlit/
+*.pdf
+tmp/
+.data/
