@@ -9,7 +9,7 @@ import chainlit as cl
 
 @cl.on_chat_start
 async def on_chat_start():
-    model = ChatOpenAI(streaming=True)
+    model = ChatOpenAI(model="gpt-3.5-turbo", streaming=True)
     prompt = ChatPromptTemplate.from_messages(
         [
             (
