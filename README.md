@@ -7,5 +7,5 @@ Python版LangChainと、chainlitを用いた、生成AI(LLM)のサンプルア�
 - こちらの資料をご覧ください。
   - https://shu-kob.hateblo.jp/entry/2024/04/05/122853
  
-- 勉強会のアーカイブ動画もあります。
+- ハンズオン勉強会のアーカイブ動画もあります。
   - https://youtu.be/1nH7L7OnrIY?si=2xq-K7d5GjDIKjq_
