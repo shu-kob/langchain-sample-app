@@ -40,10 +40,6 @@ async def on_chat_start():
 
   if not os.path.exists("tmp"):
     os.mkdir("tmp")
-  #with open(f"tmp/{file.name}", "wb") as f:
-  #  print('file')
-  #  print(file)
-  #  f.write(file.content)
   
   documents = PyMuPDFLoader(file.path).load()
   splitted_documents = text_splitter.split_documents(documents)
